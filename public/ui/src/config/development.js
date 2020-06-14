@@ -2,6 +2,7 @@ import nconf from 'nconf';
 nconf.use('memory');
 
 const actions = {
+    REFRESH_JSON : 'REFRESH_JSON',
     JSON_RECEIVED : 'JSON_RECEIVED',
     SHEET_NAMES_RECEIVED : 'SHEET_NAMES_RECEIVED',
     FILE_ADDED : 'FILE_ADDED',

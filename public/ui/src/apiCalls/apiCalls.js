@@ -37,6 +37,7 @@ api.interceptors.response.use(
 
 export async function uploadFile({ dispatch, fileData, isHandlerEnabled }) {
     try {
+        dispatch({type : actions.REFRESH_JSON})
         let res = await api.post('/uploadFile', fileData, { isHandlerEnabled })
         if (res.status) {
             let result = res.data

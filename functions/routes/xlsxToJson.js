@@ -46,7 +46,7 @@ router.post("/uploadFile", function (req, res) {
             let worksheet = workbook.getWorksheet(sheetName);
             let headerCollection = worksheet.getRow(headerRow).values;
             let jsonCollection = [];
-            for (let counter = fromRow; counter < toRow; counter++) {
+            for (let counter = fromRow; counter <= toRow; counter++) {
                 let jsonObject = {};
                 let secondRow = worksheet.getRow(counter).values;
                 for (let i = 0; i < headerCollection.length; i++) {

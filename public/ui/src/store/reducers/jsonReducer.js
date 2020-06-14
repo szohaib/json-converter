@@ -3,8 +3,8 @@ import nconf from 'nconf';
 const defaultState = {
     fileContents: null,
     sheetNames: null,
-    addedFile : null,
-    inputValues : null
+    addedFile: null,
+    inputValues: null
 }
 
 const actions = nconf.get('actions');
@@ -12,6 +12,14 @@ const actions = nconf.get('actions');
 export default function (state = defaultState, action) {
     // if (action !== undefined) {
     switch (action.type) {
+        case actions.REFRESH_JSON:
+            {
+                state = {
+                    ...state,
+                    fileContents: null
+                };
+                break;
+            }
         case actions.JSON_RECEIVED:
             {
                 state = {
@@ -21,14 +29,14 @@ export default function (state = defaultState, action) {
                 break
 
             }
-        case actions.SHEET_NAMES_RECEIVED:{
+        case actions.SHEET_NAMES_RECEIVED: {
             state = {
                 ...state,
                 sheetNames: { ...state.sheetNames, ...action.payload },
             };
             break
         }
-        case actions.FILE_ADDED:{
+        case actions.FILE_ADDED: {
             state = {
                 ...state,
                 addedFile: { ...state.addedFile, ...action.payload },

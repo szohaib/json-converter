@@ -4,13 +4,15 @@ import RenderJSON from '../render-json-component/render-json';
 import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import './excel-json.css';
 import { connect } from 'react-redux';
-import { uploadFile, getSheetNames, selectedFiles } from '../../apiCalls/apiCalls';
+import { uploadFile, getSheetNames, selectedFiles, setInputValues } from '../../apiCalls/apiCalls';
 import toastr from 'toastr';
 import '../../../node_modules/toastr/build/toastr.css'
+import { EventEmitter } from '../../helpers/events';
 
 class ExcelJSON extends Component {
     state = {
-        disableInputValues : true,
+        disableInputValues: true,
+        inputValues: {}
     }
     render() {
         return (
@@ -25,6 +27,14 @@ class ExcelJSON extends Component {
                 </div>
             </div>
         );
+    }
+
+    constructor() {
+        super();
+        EventEmitter.subscribe('inputValues', (event) => {
+            this.state.inputValues = { ...this.state.inputValues, ...event };
+            console.log(this.state)
+        })
     }
 
     passFileContents = () => {
@@ -44,31 +54,35 @@ class ExcelJSON extends Component {
     populateSheetNames = () => {
         const data = new FormData();
         data.append("file", this.props.uploadedFile.addedFile[0]);
-        getSheetNames({ dispatch: this.props.dispatch, fileData: data , isHandlerEnabled : true }).then(() => {
+        getSheetNames({ dispatch: this.props.dispatch, fileData: data, isHandlerEnabled: true }).then(() => {
             this.setState({
-                disableInputValues : false
+                disableInputValues: false
             })
         })
     }
 
     uploadFileHandler = (a, e) => {
-        const data = new FormData();
-        data.append("file", this.props.uploadedFile.addedFile[0]);
-        this.checkForSheetName();
-        this.checkRowInput()
-        data.append('inputValues' , JSON.stringify(this.props.uploadedFile.inputValues))
-        uploadFile({ dispatch: this.props.dispatch, fileData: data , isHandlerEnabled : true})
+        setInputValues({ dispatch: this.props.dispatch, values: this.state.inputValues }).then(() => {
+            const data = new FormData();
+            data.append("file", this.props.uploadedFile.addedFile[0]);
+            this.checkForSheetName();
+            this.checkRowInput()
+            data.append('inputValues', JSON.stringify(this.props.uploadedFile.inputValues));
+
+            uploadFile({ dispatch: this.props.dispatch, fileData: data, isHandlerEnabled: true })
+        })
+
     }
 
     checkForSheetName = () => {
-        if(!this.props.uploadedFile.inputValues.sheetName){
+        if (!this.props.uploadedFile.inputValues.sheetName) {
             this.props.uploadedFile.inputValues.sheetName = this.props.uploadedFile.sheetNames[0]
         }
     }
-    
+
     checkRowInput = () => {
-        if(this.props.uploadedFile.inputValues.toRow < this.props.uploadedFile.inputValues.fromRow){
-            toastr.error("Error" , "From Row cannot be larger than To Row");
+        if (this.props.uploadedFile.inputValues.toRow < this.props.uploadedFile.inputValues.fromRow) {
+            toastr.error("Error", "From Row cannot be larger than To Row");
             return;
         }
 

@@ -3,12 +3,17 @@ import '../../../node_modules/bootstrap/dist/css/bootstrap.css'
 import './upload-excel.css'
 import { setInputValues, uploadFile } from '../../apiCalls/apiCalls'
 import { connect } from 'react-redux';
+import { EventEmitter } from '../../helpers/events';
+
+
+
 class UploadExcel extends Component {
     handleChange = (e) => {
         let value = {
             [e.target.name]: parseInt(e.target.value)
         }
-        setInputValues({ dispatch: this.props.dispatch, values: value })
+        EventEmitter.dispatch('inputValues' , value)
+        // setInputValues({ dispatch: this.props.dispatch, values: value })
     }
 
     render() {
