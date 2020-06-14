@@ -9,7 +9,7 @@ router.post("/getSheets", function (req, res) {
     let stream = new Stream.Readable();
     stream.push(req.files[0].buffer);
     stream.push(null);
-    workbook.xlsx
+    return workbook.xlsx
         .read(stream)
         .then(workbook => {
             var sheetNames = []
@@ -18,6 +18,7 @@ router.post("/getSheets", function (req, res) {
             });
             return res.send(sheetNames)
         })
+    // return;
 })
 
 router.post("/uploadFile", function (req, res) {
@@ -60,6 +61,8 @@ router.post("/uploadFile", function (req, res) {
         .catch(function (error) {
             return "Error";
         });
+
+        return;
     
 });
 
