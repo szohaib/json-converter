@@ -1,0 +1,12 @@
+.top-navbar{
+    background: white;
+    /* border: 1px solid black; */
+    border-radius: 10px;
+    box-shadow: 0px 1px 5px 0px rgba(0 , 0 ,0 ,0.16);
+    /* margin-top: 20px; */
+}
+
+.top-navbar .navbar-brand p{
+    margin: 0px;
+    color: #5533FF;
+}
