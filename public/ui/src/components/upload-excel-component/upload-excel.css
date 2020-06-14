@@ -22,7 +22,7 @@
   }
 
   .file-preview{
-    width: 100px;
+    width: min-content;
     height: 100px;
     font-size: 12px;
     position: absolute;

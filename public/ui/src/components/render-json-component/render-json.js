@@ -7,11 +7,13 @@ class RenderJSON extends Component {
         return (
             <div className="card json-card">
                 <div className="card-body" id="card-body">
-                    <h5 className="card-title">JSON
-                    {this.copyToClipboardHTML()}
+                    <h5 className="card-title">JSON </h5>
+                    <span className="card-buttons">
+                        {this.copyToClipboardHTML()}
                         <span className="row-count">{this.totalRows()}</span>
-                    </h5>
-                    <div className="content">{this.renderJSON()}</div>
+                    </span>
+
+                    <div className="content" id="content">{this.renderJSON()}</div>
                 </div>
             </div>
         )
@@ -20,19 +22,19 @@ class RenderJSON extends Component {
     copyToClipboardHTML = () => {
         if (this.props.renderJSON && this.props.renderJSON.length > 0) {
             return (
-                <button className="btn btn-sm" onClick={this.copyToClipboard}>Copy</button>
+                <button className="btn btn-sm btn-copy-text" onClick={this.copyToClipboard}>Copy To Clipboard</button>
             )
         }
     }
 
     copyToClipboard = () => {
-        var copyTextArea = document.getElementById("card-body");
+        var copyTextArea = document.getElementById("content");
 
         let copyText = copyTextArea.innerText;
 
-        navigator.clipboard.writeText(copyText).then(function(){
+        navigator.clipboard.writeText(copyText).then(function () {
             console.log("Copied");
-        } , function(err){
+        }, function (err) {
             console.log(err)
         })
     }

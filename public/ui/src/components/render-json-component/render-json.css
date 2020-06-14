@@ -16,8 +16,14 @@
     color: white;
 }
 
-.json-card .card-title .row-count{
-    float: right;
+/* .json-card .card-title .row-count{ */
+    /* float: right; */
+    /* left: 10px;
+    top: 2px;
+} */
+
+.json-card .card-title{
+    display: inline-block;
 }
 
 .json-card .card-body {
@@ -69,4 +75,22 @@
     font-size: 14px;
     position: relative;
     top: 5px;
+}
+
+.btn-copy-text{
+    background: white;
+    border: 1px solid black;
+    color: black;
+}
+
+.card-buttons{
+    position: relative !important;
+    top: -5px !important; 
+    float: right;
+}
+
+.card-buttons .row-count{
+    left: 5px;
+    position: relative !important;
+    top: 2px !important;
 }
