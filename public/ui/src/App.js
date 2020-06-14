@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import './config/development'
 import ExcelJSON from './components/excel-json-component/excel-json';
 import TopNavbar from "./components/top-navbar-component/top-navbar";
+import '../node_modules/toastr/build/toastr.min.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import { Loader } from './apiCalls/common/httpInterceptor'
 

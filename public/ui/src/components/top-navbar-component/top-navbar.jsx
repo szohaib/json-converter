@@ -6,7 +6,7 @@ class TopNavbar extends Component {
         return (
             <nav className="navbar navbar-light  top-navbar">
                 <div className="navbar-brand">
-                    <p>Convert IO</p>
+                    <p>Simple Converter</p>
                 </div>
             </nav>
         );

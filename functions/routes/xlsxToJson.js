@@ -29,15 +29,17 @@ router.post("/getSheets", function (req, res) {
 router.post("/uploadFile", function (req, res) {
     // return res.send(req.body);
     let inputValues = JSON.parse(req.body.inputValues);
-    let fromRow = inputValues.fromRow;
-    let toRow = inputValues.toRow;
-    let headerRow = inputValues.headerRow;
+   
     let sheetName = inputValues.sheetName;
 
     let workbook = new Excel.Workbook();
     let stream = new Stream.Readable();
+
+    let fromRow = inputValues.fromRow || 2;
    
-   
+    let headerRow = inputValues.headerRow || 1;
+
+
     stream.push(req.files[0].buffer);
     stream.push(null);
     workbook.xlsx
@@ -46,6 +48,7 @@ router.post("/uploadFile", function (req, res) {
             let worksheet = workbook.getWorksheet(sheetName);
             let headerCollection = worksheet.getRow(headerRow).values;
             let jsonCollection = [];
+            let toRow = inputValues.toRow || workbook.getWorksheet(sheetName).rowCount;
             for (let counter = fromRow; counter <= toRow; counter++) {
                 let jsonObject = {};
                 let secondRow = worksheet.getRow(counter).values;

@@ -4,6 +4,7 @@ import './upload-excel.css'
 import { setInputValues, uploadFile } from '../../apiCalls/apiCalls'
 import { connect } from 'react-redux';
 import { EventEmitter } from '../../helpers/events';
+import toastr from 'toastr';
 
 
 
@@ -12,7 +13,7 @@ class UploadExcel extends Component {
         let value = {
             [e.target.name]: parseInt(e.target.value)
         }
-        EventEmitter.dispatch('inputValues' , value)
+        EventEmitter.dispatch('inputValues', value)
         // setInputValues({ dispatch: this.props.dispatch, values: value })
     }
 
@@ -21,11 +22,15 @@ class UploadExcel extends Component {
         return (
             <React.Fragment>
                 <div className="col-md-2 description">
-                    <p>Convert your Excel to JSON using our simple User Interface. Select your Excel file , Choose the appropriate options and click upload to convert your Excel to JSON</p>
+                    <p>Convert your Excel to JSON using our simple User Interface. Select your Excel file then - Choose the appropriate options and click upload to convert your Excel to JSON</p>
+                    <p>DISCLAIMER : We do not store your data on our servers. Simple Converter is safe to use</p>
                 </div>
                 <div className="col-md-5">
                     <div className="upload-btn-wrapper">
-                        <button className="add-file-button btn " id="file-upload-btn">Upload a file</button>
+                        <button className="add-file-button btn " id="file-upload-btn">
+                            Upload a file
+                            {/* <p className="upload-note">Note : (Only one file at a time)</p> */}
+                        </button>
                         <input type="file" name="myfile" onChange={this.props.fileAdded} />
                     </div>
                 </div>
@@ -47,17 +52,17 @@ class UploadExcel extends Component {
                             </div>
                             <div className="row mt-3">
                                 <div className="col-md-6">
-                                    <label>From Row</label>
+                                    <label>From Row <span className="optional">(Optional)</span></label>
                                     <input className="form-control" name="fromRow" onChange={this.handleChange} disabled={this.props.disableInputValues}></input>
                                 </div>
                                 <div className="col-md-6">
-                                    <label>To Row</label>
+                                    <label>To Row <span className="optional">(Optional)</span></label>
                                     <input className="form-control" name="toRow" onChange={this.handleChange} disabled={this.props.disableInputValues}></input>
                                 </div>
                             </div>
                             <div className="row mt-3">
                                 <div className="col-md-12">
-                                    <label>Header Row</label>
+                                    <label>Header Row <span className="optional">(Optional)</span></label>
                                     <input className="form-control" name="headerRow" onChange={this.handleChange} disabled={this.props.disableInputValues}></input>
                                 </div>
                             </div>
@@ -87,6 +92,7 @@ class UploadExcel extends Component {
 
 
     previewFile = () => {
+
         if (this.props.selectedFiles) {
             let fileUploadElement = document.getElementById('file-upload-btn');
             fileUploadElement.innerText = "";
@@ -101,7 +107,8 @@ class UploadExcel extends Component {
             fileName.innerText = this.props.selectedFiles[0].name;
             filePreview.append(fileImage);
             filePreview.append(fileName);
-            fileUploadElement.append(filePreview)
+            fileUploadElement.append(filePreview);
+
         }
     }
 }

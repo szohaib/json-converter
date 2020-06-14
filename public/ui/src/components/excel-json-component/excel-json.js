@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import UploadExcel from '../upload-excel-component/upload-excel';
 import RenderJSON from '../render-json-component/render-json';
-import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
+// import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
 import './excel-json.css';
 import { connect } from 'react-redux';
 import { uploadFile, getSheetNames, selectedFiles, setInputValues } from '../../apiCalls/apiCalls';
 import toastr from 'toastr';
-import '../../../node_modules/toastr/build/toastr.css'
+// import '../../../node_modules/toastr/build/toastr.css'
 import { EventEmitter } from '../../helpers/events';
 
 class ExcelJSON extends Component {
@@ -31,6 +31,9 @@ class ExcelJSON extends Component {
 
     constructor() {
         super();
+        toastr.options.closeMethod = 'fadeOut';
+        toastr.options.closeDuration = 300;
+        toastr.options.closeEasing = 'swing';
         EventEmitter.subscribe('inputValues', (event) => {
             this.state.inputValues = { ...this.state.inputValues, ...event };
             console.log(this.state)
@@ -46,6 +49,10 @@ class ExcelJSON extends Component {
 
     fileAddedHandler = (e) => {
         e.persist();
+        if (e.target.files.length > 0 && !e.target.files[0].name.includes('xlsx')) {
+            toastr.error("Please upload an Excel File");
+            return;
+        }
         selectedFiles({ dispatch: this.props.dispatch, file: e.target.files }).then(() => {
             this.populateSheetNames();
         });
@@ -62,15 +69,22 @@ class ExcelJSON extends Component {
     }
 
     uploadFileHandler = (a, e) => {
-        setInputValues({ dispatch: this.props.dispatch, values: this.state.inputValues }).then(() => {
-            const data = new FormData();
-            data.append("file", this.props.uploadedFile.addedFile[0]);
-            this.checkForSheetName();
-            this.checkRowInput()
-            data.append('inputValues', JSON.stringify(this.props.uploadedFile.inputValues));
+        let isRowInputsValidate = this.checkRowInput();
+        if (isRowInputsValidate) {
+            setInputValues({ dispatch: this.props.dispatch, values: this.state.inputValues }).then(() => {
+                const data = new FormData();
+                data.append("file", this.props.uploadedFile.addedFile[0]);
+                this.checkRowInput()
+                this.checkForSheetName();
 
-            uploadFile({ dispatch: this.props.dispatch, fileData: data, isHandlerEnabled: true })
-        })
+                data.append('inputValues', JSON.stringify(this.props.uploadedFile.inputValues));
+
+                uploadFile({ dispatch: this.props.dispatch, fileData: data, isHandlerEnabled: true })
+            })
+        }
+        else {
+            return
+        }
 
     }
 
@@ -81,10 +95,13 @@ class ExcelJSON extends Component {
     }
 
     checkRowInput = () => {
-        if (this.props.uploadedFile.inputValues.toRow < this.props.uploadedFile.inputValues.fromRow) {
-            toastr.error("Error", "From Row cannot be larger than To Row");
-            return;
+        
+        if (this.state.inputValues.toRow && this.state.inputValues.fromRow && this.state.inputValues.toRow < this.state.inputValues.fromRow) {
+            toastr.error("From Row cannot be larger than To Row");
+            return false;
         }
+        return true
+
 
     }
 }

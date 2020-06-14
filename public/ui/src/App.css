@@ -3,7 +3,7 @@
   font-family: "Product sans";
 }
 
-@import '../node_modules/toastr/build/toastr.css';
+/* @import '../node_modules/toastr/build/toastr.min.css'; */
 
 html{
   font-family: "Product Sans" , sans-serif !important;

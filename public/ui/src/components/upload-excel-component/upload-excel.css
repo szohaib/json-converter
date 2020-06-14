@@ -22,7 +22,7 @@
   }
 
   .file-preview{
-    width: min-content;
+    width: 150px;
     height: 100px;
     font-size: 12px;
     position: absolute;
@@ -88,11 +88,35 @@ hr{
 
 .description{
   position: relative;
-  top: 30px;
+  /* top: 30px; */
   background: #2E2290;
   height: max-content;
   padding: 10px;
   border-radius: 10px;
   text-align: left;
   color: white;
+}
+
+.optional{
+  font-size: 11px;
+}
+
+select:disabled{
+  cursor: not-allowed;
+}
+
+input:disabled{
+  cursor: not-allowed;
+}
+
+button:disabled{
+  cursor: not-allowed;
+}
+
+.upload-note{
+  font-size: 10px ;
+  color: firebrick ;
+  letter-spacing: 0.4px ;
+  position: relative ;
+  top: 10px ;
 }

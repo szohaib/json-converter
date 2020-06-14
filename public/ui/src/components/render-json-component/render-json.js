@@ -49,18 +49,18 @@ class RenderJSON extends Component {
         if (this.props.renderJSON) {
 
             let jsonSafeCopy = this.props.renderJSON.slice(0);
-            if (jsonSafeCopy.length > 20) {
-                let splicedJSON = jsonSafeCopy.splice(0, jsonSafeCopy.length - 20);
-                return (<div><p>
-                    {JSON.stringify(jsonSafeCopy)}
-                </p> <span>More {splicedJSON.length} rows</span></div>);
-            }
-            else {
-                return (<div><p>
-                    {JSON.stringify(jsonSafeCopy)}</p></div>)
-            }
-
+            // if (jsonSafeCopy.length > 20) {
+            //     let splicedJSON = jsonSafeCopy.splice(0, jsonSafeCopy.length - 20);
+            //     return (<div><p>
+            //         {JSON.stringify(jsonSafeCopy)}
+            //     </p> <span>More {splicedJSON.length} rows</span></div>);
+            // }
+            // else {
+            return (<div><p>
+                {JSON.stringify(jsonSafeCopy)}</p></div>)
         }
+
+
     }
 
 }

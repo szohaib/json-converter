@@ -9,7 +9,7 @@
 
 
 .json-card{
-    height: 200px;
+    height: calc(100vh - 540px);;
     border-radius: 10px;
     box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.10);
     background: #2E2290;
